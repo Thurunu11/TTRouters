@@ -58,7 +58,7 @@ router.get('/getImageFeed', async (req, res) => {
         let pageNo_visual = req.query.pageNo_visual ? req.query.pageNo_visual : 0;      ///----------------> Want to sort this out
 
         const data_cam = await CamImage.find({
-            time_rtc1: { $ne: null }
+            time_rtc2: { $ne: null }
         }).limit(10).skip(parseInt(pageNo_visual) * 10);
 
 
@@ -87,22 +87,22 @@ router.get('/getImageFeed', async (req, res) => {
 //-----------------------Post Method - Sensor Data  -------------------//
 
 router.post('/sensordata', async (req, res) => {
-    // console.log('Received POST request with data:', req.body);
+    console.log('Received POST request with data:', req.body);
 
     try {
-        const data = new SenData({
-            time_rtc3: req.body.time_sensor,
-            pressure: req.body.pressure,
-            humidity: req.body.humid,
+        const data = new SenData({    // THis is not working
+            time_rtc3: req.body.time,
+            pressure: req.body.pres,
+            humidity: req.body.humi,
             temp_data: req.body.temp,
             lightIntensity: req.body.lux,
             soilmoisture: req.body.moist,
-            ph: req.body.soil_ph,
+            ph_soil: req.body.ph,
         });
 
         const dataToSave = await data.save();
         console.log('Sensor Data Saved Successfully!');
-        // res.status(200).json(dataToSave);
+        res.status(200).json(dataToSave);
     } catch (error) {
         console.error('Error saving data:', error);
         res.status(400).json({ message: error.message });
@@ -121,9 +121,15 @@ router.get('/getSensorFeed', async (req, res) => {
             time_rtc3: { $ne: null }
         }).limit(10).skip(parseInt(pageNo_sensor) * 10);
 
-//  ___________Counting sensor data entries __________________  //
-        const senData_count  = await SenData.countDocuments();
-        res.json(senData_count)
+
+        const senData_count  = await SenData.countDocuments();   //  ___________Counting sensor data entries __________________  //
+
+        const result = {
+            sensor_data:data_sensor,
+            sensordata_count:senData_count
+        }
+        res.json(result)
+
     }
 
     catch(error){

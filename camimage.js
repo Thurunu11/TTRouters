@@ -13,4 +13,4 @@ const dataSchema = new mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('esp32camimage', dataSchema)
+module.exports = mongoose.model('esp32camimages', dataSchema)

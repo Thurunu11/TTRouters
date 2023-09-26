@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const dataSchema = new mongoose.Schema({
-    sd_id: {
-        required: true,
-        type: Number
-    },
     time_rtc3: {
         required: false,
         type: String
@@ -28,15 +24,8 @@ const dataSchema = new mongoose.Schema({
     pressure: {
         required: false,
         type: String
-    },    visualdata: {
-        required: false,
-        type: String
     },
-    ph: {
-        required: false,
-        type: String
-    },
-    date3: {
+    ph_soil: {
         required: false,
         type: String
     }
