@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 
 const mongoString = process.env.DATABASE_URL;
+const serverPort = process.env.SERVER_PORT;
 
 mongoose.connect(mongoString);
 const database = mongoose.connection;
@@ -21,6 +22,6 @@ const app = express();
 app.use(express.json());
 app.use('/api', routes);
 
-app.listen(8081, () => {
-    console.log(`Server Started at ${8081}`)
+app.listen(serverPort, () => {
+    console.log(`Server Started at ${serverPort}`)
 })
